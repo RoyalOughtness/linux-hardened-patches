@@ -1,0 +1,28 @@
+From 41f79addb527fb44e9426e633b13d216ef4dcdf5 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 15 May 2017 23:45:34 -0400
+Subject: [PATCH 070/103] ata: avoid null pointer dereference on bug
+
+Extracted from PaX.
+
+Signed-off-by: Daniel Micay <danielmicay@gmail.com>
+---
+ drivers/ata/libata-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index 30932552437a..1f292cbd0204 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -4762,7 +4762,7 @@ void __ata_qc_complete(struct ata_queued_cmd *qc)
+ 	struct ata_port *ap;
+ 	struct ata_link *link;
+ 
+-	WARN_ON_ONCE(qc == NULL); /* ata_qc_from_tag _might_ return NULL */
++	BUG_ON(qc == NULL); /* ata_qc_from_tag _might_ return NULL */
+ 	WARN_ON_ONCE(!(qc->flags & ATA_QCFLAG_ACTIVE));
+ 	ap = qc->ap;
+ 	link = qc->dev->link;
+-- 
+2.47.0
+

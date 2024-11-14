@@ -1,0 +1,88 @@
+From 3e2d03c5ee7b7ad7ddf02ee463d4656310ae010e Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 25 Feb 2018 03:26:45 -0500
+Subject: [PATCH 088/103] hard-wire legacy checkreqprot option to 0
+
+The userspace API is left intact for compatibility.
+
+Signed-off-by: Levente Polyak <levente@leventepolyak.net>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 11 -----------
+ security/selinux/hooks.c                        | 12 ------------
+ security/selinux/selinuxfs.c                    | 10 +---------
+ 3 files changed, 1 insertion(+), 32 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7966e710d9f6..f41dd1a7da60 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -614,17 +614,6 @@
+ 			nokmem -- Disable kernel memory accounting.
+ 			nobpf -- Disable BPF memory accounting.
+ 
+-	checkreqprot=	[SELINUX] Set initial checkreqprot flag value.
+-			Format: { "0" | "1" }
+-			See security/selinux/Kconfig help text.
+-			0 -- check protection applied by kernel (includes
+-				any implied execute protection).
+-			1 -- check protection requested by application.
+-			Default value is set via a kernel config option.
+-			Value can be changed at runtime via
+-				/sys/fs/selinux/checkreqprot.
+-			Setting checkreqprot to 1 is deprecated.
+-
+ 	cio_ignore=	[S390]
+ 			See Documentation/arch/s390/common_io.rst for details.
+ 
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index c11303d662d8..e6ff36ad16b6 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -140,18 +140,6 @@ static int __init selinux_enabled_setup(char *str)
+ __setup("selinux=", selinux_enabled_setup);
+ #endif
+ 
+-static int __init checkreqprot_setup(char *str)
+-{
+-	unsigned long checkreqprot;
+-
+-	if (!kstrtoul(str, 0, &checkreqprot)) {
+-		if (checkreqprot)
+-			pr_err("SELinux: checkreqprot set to 1 via kernel parameter.  This is no longer supported.\n");
+-	}
+-	return 1;
+-}
+-__setup("checkreqprot=", checkreqprot_setup);
+-
+ /**
+  * selinux_secmark_enabled - Check to see if SECMARK is currently enabled
+  *
+diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
+index e172f182b65c..79353119b64c 100644
+--- a/security/selinux/selinuxfs.c
++++ b/security/selinux/selinuxfs.c
+@@ -699,20 +699,12 @@ static ssize_t sel_write_checkreqprot(struct file *file, const char __user *buf,
+ 	if (IS_ERR(page))
+ 		return PTR_ERR(page);
+ 
+-	if (sscanf(page, "%u", &new_value) != 1) {
++	if (sscanf(page, "%u", &new_value) != 1 || new_value) {
+ 		length = -EINVAL;
+ 		goto out;
+ 	}
+ 	length = count;
+ 
+-	if (new_value) {
+-		char comm[sizeof(current->comm)];
+-
+-		memcpy(comm, current->comm, sizeof(comm));
+-		pr_err("SELinux: %s (%d) set checkreqprot to 1. This is no longer supported.\n",
+-		       comm, current->pid);
+-	}
+-
+ 	selinux_ima_measure_state();
+ 
+ out:
+-- 
+2.47.0
+

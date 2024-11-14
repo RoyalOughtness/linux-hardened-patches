@@ -1,0 +1,25 @@
+From 72d018cf997c97bb59e3d2e12359666d951e1de7 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 29 May 2017 12:21:21 -0400
+Subject: [PATCH 005/103] enable BUG_ON_DATA_CORRUPTION by default
+
+Signed-off-by: Daniel Micay <danielmicay@gmail.com>
+---
+ security/Kconfig.hardening | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
+index a7f43d69629c..e57f098763b7 100644
+--- a/security/Kconfig.hardening
++++ b/security/Kconfig.hardening
+@@ -294,6 +294,7 @@ config LIST_HARDENED
+ config BUG_ON_DATA_CORRUPTION
+ 	bool "Trigger a BUG when data corruption is detected"
+ 	select LIST_HARDENED
++	default y
+ 	help
+ 	  Select this option if the kernel should BUG when it encounters
+ 	  data corruption in kernel memory structures when they get checked
+-- 
+2.47.0
+

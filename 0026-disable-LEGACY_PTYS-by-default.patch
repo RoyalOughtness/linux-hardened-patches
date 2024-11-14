@@ -1,0 +1,24 @@
+From 33464ff75edc19ed345c224ff6d1efd05ced14bd Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 5 Jan 2018 13:21:16 -0500
+Subject: [PATCH 026/103] disable LEGACY_PTYS by default
+
+---
+ drivers/tty/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
+index a45d423ad10f..03885416cd43 100644
+--- a/drivers/tty/Kconfig
++++ b/drivers/tty/Kconfig
+@@ -116,7 +116,6 @@ config UNIX98_PTYS
+ 
+ config LEGACY_PTYS
+ 	bool "Legacy (BSD) PTY support"
+-	default y
+ 	help
+ 	  A pseudo terminal (PTY) is a software device consisting of two
+ 	  halves: a master and a slave. The slave device behaves identical to
+-- 
+2.47.0
+

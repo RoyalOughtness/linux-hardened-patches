@@ -1,0 +1,28 @@
+From 2d895ac5cf24111f50641976dffd0c292c55ee06 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 4 Jul 2017 01:42:33 -0400
+Subject: [PATCH 058/103] mark softirq_vec as __ro_after_init
+
+Note: __cacheline_aligned_in_smp conflicts with __ro_after_init on x86.
+
+Extracted from PaX.
+---
+ kernel/softirq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 03344e5b96a3..16fd7f736cfb 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -57,7 +57,7 @@ DEFINE_PER_CPU_ALIGNED(irq_cpustat_t, irq_stat);
+ EXPORT_PER_CPU_SYMBOL(irq_stat);
+ #endif
+ 
+-static struct softirq_action softirq_vec[NR_SOFTIRQS] __cacheline_aligned_in_smp;
++static struct softirq_action softirq_vec[NR_SOFTIRQS] __ro_after_init __aligned(PAGE_SIZE);
+ 
+ DEFINE_PER_CPU(struct task_struct *, ksoftirqd);
+ 
+-- 
+2.47.0
+

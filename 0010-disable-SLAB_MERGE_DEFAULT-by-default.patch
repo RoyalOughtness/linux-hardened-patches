@@ -1,0 +1,24 @@
+From 734f3c13643438c540ce321558b6dbc5acc5d484 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 8 Jul 2017 02:38:54 -0400
+Subject: [PATCH 010/103] disable SLAB_MERGE_DEFAULT by default
+
+---
+ mm/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 682c1a1e2c82..e22e4ee60a7c 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -263,7 +263,6 @@ config SLUB_TINY
+ 
+ config SLAB_MERGE_DEFAULT
+ 	bool "Allow slab caches to be merged"
+-	default y
+ 	help
+ 	  For reduced kernel memory fragmentation, slab caches can be
+ 	  merged when they share the same size and other characteristics.
+-- 
+2.47.0
+

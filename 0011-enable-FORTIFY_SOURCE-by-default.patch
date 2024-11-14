@@ -1,0 +1,25 @@
+From f5f9b4200a822a6ca8c605cfbf8da600ef18ba41 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 8 May 2017 12:51:54 -0400
+Subject: [PATCH 011/103] enable FORTIFY_SOURCE by default
+
+Signed-off-by: Daniel Micay <danielmicay@gmail.com>
+---
+ security/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/security/Kconfig b/security/Kconfig
+index ec75bd98914c..a2c72cc654b6 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -177,6 +177,7 @@ config FORTIFY_SOURCE
+ 	depends on ARCH_HAS_FORTIFY_SOURCE
+ 	# https://github.com/llvm/llvm-project/issues/53645
+ 	depends on !CC_IS_CLANG || !X86_32
++	default y
+ 	help
+ 	  Detect overflows of buffers in common string and memory functions
+ 	  where the compiler can determine and validate the buffer sizes.
+-- 
+2.47.0
+

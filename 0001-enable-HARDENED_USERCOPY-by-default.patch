@@ -1,0 +1,25 @@
+From bcd9f0d6facb5b3ba99f8014c7981d05e3836d91 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 29 May 2017 06:17:41 -0400
+Subject: [PATCH 001/103] enable HARDENED_USERCOPY by default
+
+Signed-off-by: Daniel Micay <danielmicay@gmail.com>
+---
+ security/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/security/Kconfig b/security/Kconfig
+index a93c1a9b7c28..68800b4f34ba 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -162,6 +162,7 @@ config LSM_MMAP_MIN_ADDR
+ config HARDENED_USERCOPY
+ 	bool "Harden memory copies between kernel and userspace"
+ 	imply STRICT_DEVMEM
++	default y
+ 	help
+ 	  This option checks for obviously wrong memory regions when
+ 	  copying memory to/from the kernel (via copy_to_user() and
+-- 
+2.47.0
+

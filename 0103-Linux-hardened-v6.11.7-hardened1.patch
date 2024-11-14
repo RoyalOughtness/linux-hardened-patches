@@ -1,0 +1,26 @@
+From f3db19b723293f30cfdb95595ca39222b24d7634 Mon Sep 17 00:00:00 2001
+From: Levente Polyak <levente@leventepolyak.net>
+Date: Sun, 10 Nov 2024 15:33:45 +0100
+Subject: [PATCH 103/103] Linux hardened v6.11.7-hardened1
+
+Signed-off-by: Levente Polyak <levente@leventepolyak.net>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 692bbdf40fb5..06eabe42a420 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION = 6
+ PATCHLEVEL = 11
+ SUBLEVEL = 7
+-EXTRAVERSION =
++EXTRAVERSION = -hardened1
+ NAME = Baby Opossum Posse
+ 
+ # *DOCUMENTATION*
+-- 
+2.47.0
+
